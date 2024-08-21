@@ -15,6 +15,14 @@ optional = false
 python-versions = ">=3.7.0"
 
 [[package]]
+name = "google-play-scraper"
+version = "1.2.7"
+description = "Google-Play-Scraper provides APIs to easily crawl the Google Play Store for Python without any external dependencies!"
+category = "main"
+optional = false
+python-versions = "<4.0,>=3.7"
+
+[[package]]
 name = "idna"
 version = "3.7"
 description = "Internationalized Domain Names in Applications (IDNA)"
@@ -57,11 +65,12 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "b27186d4114ddf6af8c83239646e26a3a002f3f3c9217a05db042d6820be1400"
+content-hash = "35f74a686285b700b8a979737e20670e34cde42695e1d27d5ba5171e2a11acfa"
 
 [metadata.files]
 certifi = []
 charset-normalizer = []
+google-play-scraper = []
 idna = []
 requests = []
 urllib3 = []
