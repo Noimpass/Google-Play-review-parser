@@ -3,50 +3,54 @@ from time import sleep
 from typing import List
 from google_play_scraper import app
 from google_play_scraper import Sort, reviews_all, reviews
-from tqdm import tqdm
+#from tqdm import tqdm
 import time
 import pandas as pd
 
-
+# TwoFaced
 class ParseReviews:
     def __init__(self, links: List[str]):
         self.links = links
 
     def scrape(self):
-        info = app(
-            'com.whatsapp',
-            lang='ru', # defaults to 'en'
-            country='ru', # defaults to 'us'
-        )
-        reviews_count = info["reviews"]
-        continuation_token = None
-        for i in range(1,6):
-            result = []
-            with tqdm(total=reviews_count, position=0, leave=True) as pbar:
+        for link in self.links:
+            name = link.split("=")[1]
+            info = app(
+                name,
+                lang='ru', # defaults to 'en'
+                country='ru', # defaults to 'us'
+            )
+            reviews_count = info["reviews"]
+            title = info["title"]
+            print(f"parsing {title}")
+            for i in range(1,6):
+                result = []
+                new_result = None
+                continuation_token = None
+                #with tqdm(total=reviews_count, position=0, leave=True) as pbar:
                 while len(result) < reviews_count:
                     new_result, continuation_token = reviews(
-                    'com.whatsapp',
+                    name,
                     continuation_token=continuation_token,
                     lang='ru', # defaults to 'en'
                     country='ru', # defaults to 'us'
-                    count=50000,
+                    count=25000,
                     sort=Sort.MOST_RELEVANT, # defaults to Sort.MOST_RELEVANT
                     filter_score_with=i # defaults to None(means all score)
                     )
-                    if len(new_result) >= 25000:
-                        pbar.update(len(new_result))
-                        result.append(new_result)
-                        continue
+                    result.extend(new_result)
+                    print(f"review collected for {title} with score {i} - ",len(result))
+                    #pbar.update(len(new_result)
                     if not new_result:
-                        result.append(new_result)
+                        to_excel(result, info["title"], i)
                         print("done")
                         break
-            to_excel(new_result, info["title"], i)
-            print(len(result))
-    
+                print("TOTAL REVIEW ==",len(result))
+                time.sleep(30)
+                    
 
 def to_excel(result, title, score):
-    print("\ncreating excel file")
+    print(f"\ncreating excel file for {title}-{score}")
     try:
         df_existing = pd.read_excel(f'{title}-{score}.xlsx')
         df_new = pd.DataFrame({"Author": [x["userName"] for x in result],
@@ -62,6 +66,7 @@ def to_excel(result, title, score):
         df_new = None
         df_combined.to_excel(f'{title}-{score}.xlsx', index=False)
         df_combined = None
+        print("\n excel file created")
     except:
         df = pd.DataFrame({"Author": [x["userName"] for x in result],
                             "Rating": [x["score"] for x in result],
@@ -73,6 +78,7 @@ def to_excel(result, title, score):
                             })
         df.to_excel(f'{title}-{score}.xlsx', index=False)
         df=None
+        print("\n excel file created")
 
 
 def read_file(links_txt_path: str) -> List[str]:

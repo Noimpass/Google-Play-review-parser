@@ -15,6 +15,14 @@ optional = false
 python-versions = ">=3.7.0"
 
 [[package]]
+name = "et-xmlfile"
+version = "1.1.0"
+description = "An implementation of lxml.xmlfile for the standard library"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[[package]]
 name = "google-play-scraper"
 version = "1.2.7"
 description = "Google-Play-Scraper provides APIs to easily crawl the Google Play Store for Python without any external dependencies!"
@@ -37,6 +45,17 @@ description = "Fundamental package for array computing in Python"
 category = "main"
 optional = false
 python-versions = ">=3.10"
+
+[[package]]
+name = "openpyxl"
+version = "3.1.5"
+description = "A Python library to read/write Excel 2010 xlsx/xlsm files"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.dependencies]
+et-xmlfile = "*"
 
 [[package]]
 name = "pandas"
@@ -151,14 +170,16 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "661ff71cc1ecb1f141d84555ff0b55604e3f0889a6a763423bcbd28270f31087"
+content-hash = "f038bc647c64f7cab3f39482c4ab5df2aa540e546a7cd3a5d1f5bdceca8e4c26"
 
 [metadata.files]
 certifi = []
 charset-normalizer = []
+et-xmlfile = []
 google-play-scraper = []
 idna = []
 numpy = []
+openpyxl = []
 pandas = []
 python-dateutil = []
 pytz = []
