@@ -3,11 +3,9 @@ from time import sleep
 from typing import List
 from google_play_scraper import app
 from google_play_scraper import Sort, reviews_all, reviews
-#from tqdm import tqdm
 import time
 import pandas as pd
 
-# TwoFaced
 class ParseReviews:
     def __init__(self, links: List[str]):
         self.links = links
@@ -27,7 +25,6 @@ class ParseReviews:
                 result = []
                 new_result = None
                 continuation_token = None
-                #with tqdm(total=reviews_count, position=0, leave=True) as pbar:
                 while len(result) < reviews_count:
                     new_result, continuation_token = reviews(
                     name,
@@ -40,7 +37,6 @@ class ParseReviews:
                     )
                     result.extend(new_result)
                     print(f"review collected for {title} with score {i} - ",len(result))
-                    #pbar.update(len(new_result)
                     if not new_result:
                         to_excel(result, info["title"], i)
                         print("done")
